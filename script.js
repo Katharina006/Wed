@@ -1,161 +1,234 @@
-/* =========================================
-   KONFIGURASI — ubah bagian ini saja
-   ========================================= */
-const CONFIG = {
-  weddingDate: "2026-12-30T08:00:00+07:00",   // untuk countdown
-  calendar: {
-    title: "Pernikahan Nadia & Raka",
-    details: "Resepsi di The Grand Ballroom",
-    location: "The Grand Ballroom, Kota Anda",
-    start: "20261231T030000Z",                // format UTC
-    end:   "20261231T070000Z",
-  },
-  // Nomor WhatsApp untuk menerima RSVP (format 62xxxxxxxxxx). Kosongkan jika tidak mau.
-  rsvpWhatsApp: "",
-};
+/* ============================================
+   UNDANGAN PERNIKAHAN KATOLIK — Nadia & Raka
+   ============================================ */
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
 
-/* ========== helpers ========== */
-const $  = (s, r = document) => r.querySelector(s);
-const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const safe = (t) => { const d = document.createElement("div"); d.textContent = t; return d.innerHTML; };
+/* ---------- 1. NAMA TAMU DARI URL ---------- */
+const urlParams = new URLSearchParams(window.location.search);
+const guest = urlParams.get("to");
+if (guest) $("#guestName").textContent = guest;
 
-function toast(msg = "Tersalin!") {
-  const t = $("#toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 1800);
-}
-
-async function copyText(text) {
-  try { await navigator.clipboard.writeText(text); }
-  catch {
-    const ta = document.createElement("textarea");
-    ta.value = text; document.body.appendChild(ta); ta.select();
-    document.execCommand("copy"); ta.remove();
-  }
-  toast("Tersalin ✓");
-}
-
-/* ========== nama tamu dari URL (?to=Nama+Tamu) ========== */
-const to = new URLSearchParams(location.search).get("to");
-if (to) $("#guestName").textContent = to;
-
-/* ========== buka undangan ========== */
-const bgm = $("#bgm");
-const musicBtn = $("#musicBtn");
-
+/* ---------- 2. BUKA UNDANGAN ---------- */
 $("#openBtn").addEventListener("click", () => {
-  $("#cover-section").classList.add("open");
-  $("#main").hidden = false;
+  const cover = $("#cover-section");
+  const main = $("#main");
+
+  cover.classList.add("open");
   document.body.classList.remove("locked");
-  window.scrollTo(0, 0);
-  setTimeout(() => ($("#cover-section").style.display = "none"), 1300);
-  bgm.play().then(() => musicBtn.classList.add("playing")).catch(() => {});
-  observeReveals();
+  music.play(); // mulai musik
+
+  setTimeout(() => {
+    cover.style.display = "none";
+    main.style.display = "block";
+    window.scrollTo(0, 0);
+  }, 900);
+
+  // Efek bunga jatuh saat dibuka 🌸
+  createPetals(35);
 });
 
-musicBtn.addEventListener("click", () => {
-  if (bgm.paused) { bgm.play().catch(() => toast("File musik belum ditambahkan")); musicBtn.classList.add("playing"); }
-  else { bgm.pause(); musicBtn.classList.remove("playing"); }
-});
+/* ---------- 3. EFEK BUNGA JATUH ---------- */
+function createPetals(count = 35) {
+  const container = document.createElement("div");
+  container.className = "petals-container";
+  document.body.appendChild(container);
 
-/* ========== scroll reveal ========== */
-function observeReveals() {
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
-  }, { threshold: 0.15 });
-  $$("#main .reveal").forEach((el) => io.observe(el));
+  const colors = ["%23e6d3a6", "%23f4e8d0", "%23d4c093"]; // nuansa emas/ivory
+
+  for (let i = 0; i < count; i++) {
+    const petal = document.createElement("div");
+    petal.className = "petal";
+    const color = colors[i % colors.length];
+    petal.style.backgroundImage =
+      `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 0 C70 20 70 50 50 80 C30 50 30 20 50 0" fill="${color}" opacity="0.9"/></svg>')`;
+    petal.style.left = Math.random() * 100 + "%";
+    petal.style.animationDelay = Math.random() * 6 + "s";
+    petal.style.animationDuration = (Math.random() * 6 + 6) + "s";
+    petal.style.transform = `scale(${Math.random() * 0.8 + 0.4})`;
+    petal.style.opacity = Math.random() * 0.4 + 0.5;
+    container.appendChild(petal);
+  }
+
+  // Hentikan setelah 18 detik agar tidak berlebihan
+  setTimeout(() => container.remove(), 18000);
 }
 
-/* ========== active dock link ========== */
-const spy = new IntersectionObserver((entries) => {
-  entries.forEach((e) => {
-    if (e.isIntersecting) {
-      $$(".dock a").forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
-    }
-  });
-}, { rootMargin: "-45% 0px -50% 0px" });
-["hero-section", "detail-section", "gallery-section", "gift-section", "wish-section"].forEach((id) => spy.observe($("#" + id)));
+/* ---------- 4. COUNTDOWN ---------- */
+const targetDate = new Date("2026-12-30T09:00:00+07:00").getTime();
 
-/* ========== countdown ========== */
-const target = new Date(CONFIG.weddingDate).getTime();
-function tick() {
-  let d = Math.max(0, target - Date.now());
-  const days = Math.floor(d / 864e5); d %= 864e5;
-  const h = Math.floor(d / 36e5); d %= 36e5;
-  const m = Math.floor(d / 6e4);
-  const s = Math.floor((d % 6e4) / 1e3);
-  $("#cd-d").textContent = String(days).padStart(2, "0");
+function updateCountdown() {
+  const now = Date.now();
+  const diff = targetDate - now;
+
+  if (diff <= 0) {
+    $("#countdown").innerHTML = "<p class='lead'>Hari Bahagia Telah Tiba! 🎉</p>";
+    return;
+  }
+
+  const d = Math.floor(diff / 864e5);
+  const h = Math.floor((diff % 864e5) / 36e5);
+  const m = Math.floor((diff % 36e5) / 6e4);
+  const s = Math.floor((diff % 6e4) / 1e3);
+
+  $("#cd-d").textContent = String(d).padStart(2, "0");
   $("#cd-h").textContent = String(h).padStart(2, "0");
   $("#cd-m").textContent = String(m).padStart(2, "0");
   $("#cd-s").textContent = String(s).padStart(2, "0");
 }
-tick(); setInterval(tick, 1000);
+setInterval(updateCountdown, 1000);
+updateCountdown();
 
-/* ========== simpan tanggal (Google Calendar) ========== */
-const c = CONFIG.calendar;
-$("#saveDate").href =
-  "https://www.google.com/calendar/event?action=TEMPLATE" +
-  `&text=${encodeURIComponent(c.title)}&details=${encodeURIComponent(c.details)}` +
-  `&location=${encodeURIComponent(c.location)}&dates=${c.start}/${c.end}`;
+/* ---------- 5. MUSIK LATAR ---------- */
+const music = {
+  audio: new Audio("music.mp3"), // ganti dengan file lagu rohani
+  playing: false,
+  play() {
+    this.audio.loop = true;
+    this.audio.play().then(() => {
+      this.playing = true;
+      $("#musicBtn").classList.add("playing");
+    }).catch(() => console.log("Autoplay diblokir browser."));
+  },
+  toggle() {
+    if (this.playing) {
+      this.audio.pause();
+      this.playing = false;
+      $("#musicBtn").classList.remove("playing");
+    } else {
+      this.audio.play();
+      this.playing = true;
+      $("#musicBtn").classList.add("playing");
+    }
+  }
+};
+$("#musicBtn").addEventListener("click", () => music.toggle());
 
-/* ========== GIFT: salin rekening / alamat, QRIS ========== */
-$$("[data-copy-btn]").forEach((b) =>
-  b.addEventListener("click", () => copyText(b.dataset.copyBtn))
-);
-$$("[data-copy-btn-el]").forEach((b) =>
-  b.addEventListener("click", () => copyText($("#" + b.dataset.copyBtnEl).textContent.trim()))
-);
-$$(".bank__no").forEach((el) =>
-  el.addEventListener("click", () => copyText(el.dataset.copy))
-);
+/* ---------- 6. REVEAL ON SCROLL ---------- */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
 
-const qris = $("#qrisModal");
-$$("[data-qris]").forEach((b) => b.addEventListener("click", () => (qris.hidden = false)));
-$("#qrisClose").addEventListener("click", () => (qris.hidden = true));
-qris.addEventListener("click", (e) => { if (e.target === qris) qris.hidden = true; });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") qris.hidden = true; });
+$$(".reveal").forEach((el) => observer.observe(el));
 
-/* ========== RSVP ========== */
+/* ---------- 7. SALIN NOMOR REKENING ---------- */
+$$(".copy-btn").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const number = btn.dataset.copy;
+    try {
+      await navigator.clipboard.writeText(number);
+      showToast("✅ Nomor rekening berhasil disalin!");
+    } catch {
+      // Fallback untuk browser lama
+      const ta = document.createElement("textarea");
+      ta.value = number;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      showToast("✅ Nomor rekening berhasil disalin!");
+    }
+  });
+});
+
+/* ---------- 8. TOAST NOTIFIKASI ---------- */
+function showToast(message, duration = 2500) {
+  let toast = $(".toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.className = "toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), duration);
+}
+
+/* ---------- 9. FORM RSVP ---------- */
 $("#rsvpForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const name = $("#rsvpName").value.trim();
+  const attend = document.querySelector('input[name="att"]:checked').value;
   const guests = $("#rsvpGuests").value;
-  const att = $("input[name=att]:checked").value;
-  const data = JSON.parse(localStorage.getItem("rsvp") || "[]");
-  data.push({ name, guests, att, at: Date.now() });
-  localStorage.setItem("rsvp", JSON.stringify(data));
-  $("#rsvpNote").textContent = `Terima kasih, ${name}! Konfirmasi "${att}" telah tercatat.`;
-  e.target.reset();
+  const note = $("#rsvpNote").value.trim();
 
-  if (CONFIG.rsvpWhatsApp) {
-    const msg = `Halo, saya ${name}. Konfirmasi: ${att} (${guests} orang).`;
-    window.open(`https://wa.me/${CONFIG.rsvpWhatsApp}?text=${encodeURIComponent(msg)}`, "_blank");
+  if (!name || !guests) {
+    showToast("⚠️ Mohon lengkapi nama dan jumlah orang.");
+    return;
   }
-});
 
-/* ========== UCAPAN & DOA (disimpan di browser — lihat README untuk backend) ========== */
-const SEED = [
-  { name: "Melissa", msg: "Selamat ya! Semoga samawa sampai kakek nenek 🤍", at: Date.now() - 864e5 * 3 },
-  { name: "Citra Kusuma", msg: "Barakallahu lakuma wa baraka alaikuma. Bahagia selalu!", at: Date.now() - 864e5 * 2 },
-];
-const loadWishes = () => JSON.parse(localStorage.getItem("wishes") || "null") || SEED;
-const fmt = (t) => new Date(t).toLocaleString("id-ID", { dateStyle: "long", timeStyle: "short" });
-
-function renderWishes() {
-  $("#wishList").innerHTML = loadWishes()
-    .sort((a, b) => b.at - a.at)
-    .map((w) => `<div class="wish-item"><b>${safe(w.name)}</b><time>${fmt(w.at)}</time><p>${safe(w.msg)}</p></div>`)
-    .join("");
-}
-renderWishes();
-
-$("#wishForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const list = loadWishes();
-  list.push({ name: $("#wishName").value.trim(), msg: $("#wishMsg").value.trim(), at: Date.now() });
-  localStorage.setItem("wishes", JSON.stringify(list));
+  simpanKeUcapan({ name, attend, guests, note, date: new Date().toLocaleString("id-ID") });
+  $("#rsvpMsg").textContent = "Terima kasih! Konfirmasi kehadiran Anda telah diterima. 🙏";
+  $("#rsvpMsg").classList.add("success");
   e.target.reset();
-  renderWishes();
-  toast("Ucapan terkirim 💌");
+  showToast("🙏 Terima kasih atas konfirmasinya!");
 });
+
+/* ---------- 10. UCAPAN & DOA ---------- */
+const storageKey = "ucapan_nadia_raka";
+const KATA_DOA = ["Tuhan memberkati", "Semoga langgeng", "Ampunilah", "Sakinah", "restu Tuhan"];
+
+function simpanKeUcapan(data) {
+  const list = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  list.unshift(data);
+  localStorage.setItem(storageKey, JSON.stringify(list));
+  renderUcapan();
+}
+
+function renderUcapan() {
+  const wrapper = $("#wishList");
+  if (!wrapper) return;
+  const list = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  if (list.length === 0) {
+    wrapper.innerHTML = "<p class='muted center'>Belum ada ucapan. Jadilah yang pertama! ✨</p>";
+    return;
+  }
+  wrapper.innerHTML = list.map((w) => `
+    <div class="wish">
+      <div class="wish__head">
+        <b>${escapeHTML(w.name)}</b>
+        <small>${w.date}</small>
+      </div>
+      <p>${escapeHTML(w.note || "Tuhan memberkati pernikahan kalian. 🙏")}</p>
+      <span class="badge ${w.attend === "hadir" ? "badge--gold" : "badge--muted"}">
+        ${w.attend === "hadir" ? "✔ Hadir" : "✖ Tidak Hadir"} (${w.guests} org)
+      </span>
+    </div>
+  `).join("");
+}
+
+// Cegah XSS — wajib untuk input pengguna
+function escapeHTML(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+renderUcapan();
+
+/* ---------- 11. SAVE THE DATE (Google Calendar) ---------- */
+$("#saveDate").href =
+  "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+  "&text=Pernikahan+Nadia+%26+Raka" +
+  "&dates=20261230T020000Z/20261230T070000Z" +
+  "&details=Pemberkatan+Nikah+dan+Resepsi" +
+  "&location=Gereja+Santa+Maria+Jakarta";
+
+/* ---------- 12. QRIS MODAL (opsional) ---------- */
+const qrisBtn = $("#qrisOpenBtn");
+if (qrisBtn) {
+  qrisBtn.addEventListener("click", () => {
+    $("#qrisModal").style.display = "flex";
+  });
+  $(".modal__close").addEventListener("click", () => {
+    $("#qrisModal").style.display = "none";
+  });
+  $("#qrisModal").addEventListener("click", (e) => {
+    if (e.target.id === "qrisModal") e.target.style.display = "none";
+  });
+}
