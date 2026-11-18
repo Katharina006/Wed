@@ -4,18 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Undangan Pernikahan Nadia & Raka</title>
-  
-  <!-- Fonts -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
-  
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="locked">
 
-  <!-- COVER SECTION -->
+  <!-- ================= COVER ================= -->
   <section id="cover-section" class="cover">
     <div class="cover__bg"></div>
     <div class="cover__inner">
@@ -23,7 +20,7 @@
       <p class="eyebrow">The Wedding Of</p>
       <h1>Nadia <span>&amp;</span> Raka</h1>
       <p class="cover__date">Sabtu, 30 Desember 2026</p>
-      
+
       <div class="cover__guest">
         <p>Kepada Yth.</p>
         <h2 id="guestName">Tamu Undangan</h2>
@@ -34,20 +31,18 @@
     </div>
   </section>
 
-  <!-- MAIN CONTENT -->
+  <!-- ================= MAIN ================= -->
   <main id="main" style="display:none;">
-    
-    <!-- HERO SECTION -->
-    <section id="hero-section" class="hero reveal">
+
+    <!-- HERO -->
+    <section class="hero reveal">
       <div class="hero__overlay"></div>
       <div class="hero__content container center">
         <div class="cross-icon large">✝</div>
         <p class="eyebrow">We Are Getting Married</p>
         <h1>Nadia <span>&amp;</span> Raka</h1>
-        <p class="hero__date">Dec 30, 2026 • Jakarta</p>
-        
-        <!-- Countdown -->
-        <div class="countdown">
+        <p class="hero__date">Des 30, 2026 • Jakarta</p>
+        <div class="countdown" id="countdown">
           <div><b id="cd-d">00</b><span>Hari</span></div>
           <div><b id="cd-h">00</b><span>Jam</span></div>
           <div><b id="cd-m">00</b><span>Menit</span></div>
@@ -57,59 +52,45 @@
       <div class="scroll-hint"><i></i></div>
     </section>
 
-    <!-- COUPLE SECTION -->
-    <section id="couple-section" class="section couple">
+    <!-- COUPLE -->
+    <section class="section couple">
       <div class="container center reveal">
         <p class="eyebrow">The Couple</p>
         <h2 class="title">Nadia &amp; Raka</h2>
         <p class="lead">Dengan memohon rahmat Tuhan Yesus Kristus, kami bermaksud menyelenggarakan pernikahan kami.</p>
-        
         <div class="couple__grid">
-          <!-- Bride -->
           <div class="person">
-            <div class="person__photo ph ph--1">
-              <!-- Ganti src dengan foto asli nanti -->
-              <img src="" alt="Foto Nadia" onerror="this.style.display='none'">
-              <span>Foto Nadia</span>
-            </div>
+            <div class="person__photo ph ph--1"><span>Foto Nadia</span></div>
             <h3>Nadia Putri</h3>
-            <p>Putri dari Bapak Budi Santoso<br>dari Ibu Ani Wijaya</p>
+            <p>Putri dari Bapak Budi Santoso<br>&amp; Ibu Ani Wijaya</p>
           </div>
-
           <div class="amp">&amp;</div>
-
-          <!-- Groom -->
           <div class="person">
-            <div class="person__photo ph ph--2">
-               <img src="" alt="Foto Raka" onerror="this.style.display='none'">
-               <span>Foto Raka</span>
-            </div>
+            <div class="person__photo ph ph--2"><span>Foto Raka</span></div>
             <h3>Raka Pratama</h3>
-            <p>Putra dari Bapak Hendra Gunawan<br>dari Ibu Sari Lestari</p>
+            <p>Putra dari Bapak Hendra Gunawan<br>&amp; Ibu Sari Lestari</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- VERSE SECTION -->
-    <section id="verse-section" class="section center reveal">
+    <!-- AYAT ALKITAB -->
+    <section class="section center reveal">
       <div class="container narrow">
         <div class="ornament">❦</div>
         <p class="bible-verse">
-          “Kasih itu sabar; kasih itu murah hati; ia tidak cemburu. Ia tidak memegahkan diri dan tidak sombong. Kasih menutupi segala sesuatu, percaya segala sesuatu, mengharapkan segala sesuatu, sabar menanggung segala sesuatu.”
+          “Kasih itu sabar; kasih itu murah hati; ia tidak cemburu. Ia tidak memegahkan diri dan tidak sombong. Kasih tidak pernah berakhir.”
         </p>
-        <p class="cite">— 1 Korintus 13:4-7</p>
+        <p class="cite">— 1 Korintus 13:4, 13</p>
       </div>
     </section>
 
-    <!-- EVENT DETAILS -->
-    <section id="detail-section" class="section">
+    <!-- ACARA -->
+    <section class="section">
       <div class="container center reveal">
         <p class="eyebrow">Save The Date</p>
         <h2 class="title">Acara Pemberkatan</h2>
-        
         <div class="event__grid">
-          <!-- Akad/Pemberkatan -->
           <div class="card">
             <div class="card__icon">✝️</div>
             <h3>Pemberkatan Nikah</h3>
@@ -117,60 +98,39 @@
             <p>Pukul 09.00 - 10.00 WIB</p>
             <p class="muted">Gereja Santa Maria Tak Bernoda<br>Jl. Katedral No. 1, Jakarta Pusat</p>
           </div>
-
-          <!-- Resepsi -->
           <div class="card">
             <div class="card__icon">🥂</div>
             <h3>Resepsi</h3>
             <p class="strong">Sabtu, 30 Des 2026</p>
             <p>Pukul 11.00 - 14.00 WIB</p>
-            <p class="muted">Grand Ballroom Hotel Mulia<br>Jl. Asia Afrika Senayan, Jakarta</p>
+            <p class="muted">Grand Ballroom Hotel Mulia<br>Jl. Asia Afrika, Senayan, Jakarta</p>
           </div>
         </div>
-
         <div class="btn-row">
           <a id="saveDate" href="#" target="_blank" class="btn btn--outline">Simpan Tanggal</a>
         </div>
       </div>
     </section>
 
-    <!-- STORY TIMELINE -->
-    <section id="story-section" class="section couple">
+    <!-- CERITA -->
+    <section class="section couple">
       <div class="container narrow reveal">
         <p class="eyebrow center">Our Journey</p>
         <h2 class="title center">Cerita Cinta Kami</h2>
-        
         <div class="timeline">
-          <div class="tl">
-            <span class="tl__year">2018</span>
-            <h4>Pertemuan Pertama</h4>
-            <p>Bertemu di kampus Universitas Indonesia saat kegiatan UKM.</p>
-          </div>
-          <div class="tl">
-            <span class="tl__year">2020</span>
-            <h4>Menjalin Hubungan Serius</h4>
-            <p>Memutuskan untuk berkomitmen bersama setelah lulus kuliah.</p>
-          </div>
-          <div class="tl">
-            <span class="tl__year">2024</span>
-            <h4>Lamaran</h4>
-            <p>Dilamar di depan altar gereja saat retret keluarga.</p>
-          </div>
-          <div class="tl">
-            <span class="tl__year">2026</span>
-            <h4>Pernikahan</h4>
-            <p>Saatnya menyatukan dua hati dalam ikatan suci.</p>
-          </div>
+          <div class="tl"><span class="tl__year">2018</span><h4>Pertemuan Pertama</h4><p>Bertemu di kampus saat kegiatan UKM.</p></div>
+          <div class="tl"><span class="tl__year">2020</span><h4>Menjalin Hubungan</h4><p>Berkomitmen bersama setelah lulus kuliah.</p></div>
+          <div class="tl"><span class="tl__year">2024</span><h4>Lamaran</h4><p>Dilamar di depan keluarga dan Tuhan.</p></div>
+          <div class="tl"><span class="tl__year">2026</span><h4>Pernikahan</h4><p>Menyatukan dua hati dalam ikatan suci.</p></div>
         </div>
       </div>
     </section>
 
-    <!-- GALLERY -->
-    <section id="gallery-section" class="section gallery">
+    <!-- GALERI -->
+    <section class="section gallery">
       <div class="container reveal">
         <p class="eyebrow center">Moments</p>
         <h2 class="title center">Galeri Foto</h2>
-        
         <div class="gallery__grid">
           <figure class="g tall ph ph--3"><span>Foto 1</span></figure>
           <figure class="g wide ph ph--4"><span>Foto 2</span></figure>
@@ -181,27 +141,18 @@
       </div>
     </section>
 
-    <!-- RSVP FORM -->
-    <section id="rsvp-section" class="section">
+    <!-- RSVP -->
+    <section class="section">
       <div class="container narrow reveal">
         <p class="eyebrow center">RSVP</p>
         <h2 class="title center">Konfirmasi Kehadiran</h2>
-        <p class="lead center">Mohon konfirmasi kehadiran sebelum 15 Desember 2026.</p>
-        
+        <p class="lead center">Mohon konfirmasi sebelum 15 Desember 2026.</p>
         <form id="rsvpForm" class="form">
           <input type="text" id="rsvpName" placeholder="Nama Lengkap" required />
-          
           <div class="seg">
-            <label>
-              <input type="radio" name="att" value="hadir" checked required />
-              <span>Hadir</span>
-            </label>
-            <label>
-              <input type="radio" name="att" value="tidak" />
-              <span>Tidak Hadir</span>
-            </label>
+            <label><input type="radio" name="att" value="hadir" checked /><span>Hadir</span></label>
+            <label><input type="radio" name="att" value="tidak" /><span>Tidak Hadir</span></label>
           </div>
-
           <select id="rsvpGuests" required>
             <option value="">Jumlah Orang</option>
             <option value="1">1 Orang</option>
@@ -209,88 +160,68 @@
             <option value="3">3 Orang</option>
             <option value="4">4 Orang+</option>
           </select>
-
-          <textarea id="rsvpNote" rows="3" placeholder="Pesan / Ucapan (Opsional)"></textarea>
-          
+          <textarea id="rsvpNote" rows="3" placeholder="Tulis doa / ucapan untuk kedua mempelai..."></textarea>
           <button type="submit" class="btn btn--gold">Kirim Konfirmasi</button>
           <p id="rsvpMsg" class="form__note"></p>
         </form>
+        <div id="wishList" class="wish-list"></div>
       </div>
     </section>
 
-    <!-- GIFTS -->
-    <section id="gift-section" class="section gift">
+    <!-- GIFT -->
+    <section class="section gift center">
       <div class="container reveal">
-        <p class="eyebrow center">Wedding Gift</p>
-        <h2 class="title center">Amplop Digital</h2>
-        <p class="lead center">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi tanda kasih, Anda dapat mengirimkannya melalui:</p>
-        
+        <p class="eyebrow">Wedding Gift</p>
+        <h2 class="title">Amplop Digital</h2>
+        <p class="lead">Doa restu Anda adalah karunia terindah. Namun jika ingin memberi tanda kasih, silakan melalui:</p>
         <div class="gift__grid">
           <div class="bank">
-            <div class="bank__header">
-              <span class="bank__logo">BCA</span>
-              <span class="bank__chip"></span>
-            </div>
+            <div class="bank__header"><span class="bank__logo">BCA</span><span class="bank__chip"></span></div>
             <div class="bank__number">1234-5678-90</div>
             <div class="bank__name">Nadia Putri</div>
             <button class="btn btn--sm copy-btn" data-copy="1234567890">Salin Nomor</button>
           </div>
-
           <div class="bank">
-            <div class="bank__header">
-              <span class="bank__logo">MANDIRI</span>
-              <span class="bank__chip"></span>
-            </div>
+            <div class="bank__header"><span class="bank__logo">MANDIRI</span><span class="bank__chip"></span></div>
             <div class="bank__number">9876-5432-10</div>
             <div class="bank__name">Raka Pratama</div>
             <button class="btn btn--sm copy-btn" data-copy="9876543210">Salin Nomor</button>
           </div>
         </div>
-        
-        <div class="center mt-4">
-           <button id="qrisOpenBtn" class="btn btn--ghost">Lihat QRIS</button>
+        <div class="mt-4">
+          <button id="qrisOpenBtn" class="btn btn--ghost">Lihat QRIS</button>
         </div>
       </div>
     </section>
 
-    <!-- WISHES -->
-    <section id="wish-section" class="section">
+    <!-- PENUTUP -->
+    <section class="section closing center">
       <div class="container narrow reveal">
-        <p class="eyebrow center">Ucapan & Doa</p>
-        <h2 class="title center">Kiriman Anda</h2>
-        
-        <div id="wishList" class="wish-list">
-          <!-- Wish items will be injected here by JS -->
-        </div>
-
-        <form id="wishForm" class="form mt-4">
-          <input type="text" id="wishName" placeholder="Nama Anda" required />
-          <textarea id="wishMsg" rows="4" placeholder="Tulis doa atau ucapan..." required></textarea>
-          <button type="submit" class="btn btn--gold">Kirim Ucapan</button>
-        </form>
+        <div class="cross-icon">✝</div>
+        <p class="lead">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara berkenan hadir dan memberikan doa restu.</p>
+        <p class="script-font">Nadia &amp; Raka</p>
+        <small class="muted">Omnia pro Deo — Segalanya bagi Tuhan</small>
       </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="section center muted bg-dark text-light py-8">
-      <div class="container">
-        <p>Terima kasih atas doanya.</p>
-        <p class="mt-2">Nadia &amp; Raka © 2026</p>
-      </div>
+    <footer class="footer center">
+      <small>© 2026 Nadia &amp; Raka • Dibuat dengan ❤️</small>
     </footer>
-
   </main>
 
+  <!-- TOMBOL MUSIK -->
+  <button id="musicBtn" title="Putar / Jeda Musik">♪</button>
+
   <!-- MODAL QRIS -->
-  <div id="qrisModal" class="modal hidden">
-    <div class="modal__backdrop"></div>
-    <div class="modal__content">
-      <button id="qrisClose" class="modal__close">&times;</button>
+  <div id="qrisModal" class="modal">
+    <div class="modal__box">
+      <button class="modal__close">×</button>
       <h3>Scan QRIS</h3>
-      <div class="qr-placeholder">QR Code Here</div>
-      <p class="muted">Bank BCA / Mandiri / All Banks</p>
+      <div class="qris-placeholder">QR Code Here</div>
+      <p class="muted">Scan dengan m-banking / e-wallet favorit Anda</p>
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast" class="toast hidden">Pesan terkirim!</
+  <script src="script.js"></script>
+</body>
+</html>
